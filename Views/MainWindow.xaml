@@ -1,0 +1,60 @@
+﻿<Window x:Class="ThoughtKeeper.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ThoughtKeeper"
+        mc:Ignorable="d"
+        Title="ThoughtKeeper" Height="450" Width="820"
+        ResizeMode="NoResize">
+
+
+    <Grid>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="4*"></ColumnDefinition>
+            <ColumnDefinition Width="11*"></ColumnDefinition>
+            <ColumnDefinition Width="5*"></ColumnDefinition>
+            <ColumnDefinition Width="15*"></ColumnDefinition>
+            <ColumnDefinition Width="24*"></ColumnDefinition>
+            <ColumnDefinition Width="15*"></ColumnDefinition>
+            <ColumnDefinition Width="6*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="5*"></RowDefinition>
+            <RowDefinition Height="5*"></RowDefinition>
+            <RowDefinition Height="5*"></RowDefinition>
+            <RowDefinition Height="5*"></RowDefinition>
+            <RowDefinition Height="5*"></RowDefinition>
+            <RowDefinition Height="5*"></RowDefinition>
+            <RowDefinition Height="5*"></RowDefinition>
+            <RowDefinition Height="5*"></RowDefinition>
+            <RowDefinition Height="5*"></RowDefinition>
+        </Grid.RowDefinitions>
+
+
+        <Label HorizontalAlignment="Center" VerticalAlignment="Center" Height="26" Grid.Row="1" Width="110" Grid.Column="1">
+            <TextBlock>
+        <Run Text="Witaj "/>
+        <Run Text="{Binding User.Username}"/>
+                <Run Text="!"/>
+            </TextBlock>
+        </Label>
+
+        <ListView Name="NoteList" Grid.RowSpan="9" Grid.Column="3" Grid.ColumnSpan="3" Margin="0,48,1,48" SelectionChanged="NoteList_SelectionChanged">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Tytuł" DisplayMemberBinding="{Binding Title}" Width="150" />
+                    <GridViewColumn Header="Treść" DisplayMemberBinding="{Binding Content}" Width="250"/>
+                    <GridViewColumn Header="Data utworzenia" DisplayMemberBinding="{Binding DateCreated}" Width="150"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <Button Content="Dodaj Notatkę" Grid.Row="2" Margin="0,10,0,10" Click="AddNoteButton_Click" Grid.Column="1"/>
+        <Button Content="Edytuj Notatkę" Grid.Row="3" Margin="0,10,0,10" Click="EditNoteButton_Click" Grid.Column="1"/>
+        <Button Content="Usuń notatkę" Grid.Row="4" Margin="0,10,0,10" Click="RemoveNoteButton_Click" Grid.Column="1"/>
+        <Button Content="Szczegóły notatki" Grid.Row="7" Margin="0,10,0,10" Click="ShowDetailsButton_Click" Grid.Column="1"/>
+
+    </Grid>
+</Window>

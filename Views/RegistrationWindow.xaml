@@ -1,0 +1,30 @@
+﻿<Window x:Class="ThoughtKeeper.RegistrationWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ThoughtKeeper"
+        mc:Ignorable="d"
+        Title="Thought Keeper" Height="400" Width="300">
+
+    <StackPanel  HorizontalAlignment="Center" >
+        <Label Content="Witaj w Thought Keeper!" Margin="0,40,0,0" HorizontalAlignment ="Center"/>
+        <Label Content="Rejestracja" HorizontalAlignment ="Center"/>
+
+        <Label Content="Login:" Margin="0,10,0,5"/>
+        <TextBox x:Name="UsernameTextBox" Margin="0,0,0,10"  Width="200"/>
+
+        <Label Content="Hasło:" Margin="0,0,0,5"/>
+        <PasswordBox x:Name="PasswordBox" Margin="0,0,0,10" Width="200"/>
+        <TextBox x:Name="VisiblePasswordTextBox" Margin="0,0,0,10" Width="200" Visibility="Collapsed"/>
+
+        <Label Content="Powtórz hasło:" Margin="0,0,0,5"/>
+        <PasswordBox x:Name="RepeatPasswordBox" Margin="0,0,0,10"  Width="200" />
+        <TextBox x:Name="VisibleRepeatPasswordTextBox" Margin="0,0,0,10"  Width="200" Visibility="Collapsed"/>
+
+        <CheckBox Content="Pokaż Hasła" Margin="0,0,0,40" HorizontalAlignment="Right" Checked="CheckBox_ShowPassword_Checked" Unchecked="CheckBox_ShowPassword_Unchecked"/>
+
+        <Button Content="Zarejestruj się" Height="20" Width="200" Click="RegisterButton_Click"/>
+
+    </StackPanel>
+</Window>
