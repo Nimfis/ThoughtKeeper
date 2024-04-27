@@ -1,7 +1,9 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System.Security.Cryptography;
 using System.Windows;
+using ThoughtKeeper.Interfaces;
 using ThoughtKeeper.Service;
+using ThoughtKeeper.Services;
 
 namespace ThoughtKeeper
 {
@@ -36,6 +38,7 @@ namespace ThoughtKeeper
             services.AddScoped<INoteCryptoService>(provider => new NoteCryptoService(key, iv));
             services.AddScoped<INoteService, NoteService>(_ => new NoteService(_connectionString, _.GetService<INoteCryptoService>(), _.GetService<IUserService>())); 
             services.AddScoped<IAuthenticationService, AuthenticationService>();
+            services.AddScoped<ICategoryService>(provider => new CategoryService(_connectionString));
         }
     }
 }

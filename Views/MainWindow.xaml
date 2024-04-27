@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ThoughtKeeper"
         mc:Ignorable="d"
-        Title="ThoughtKeeper" Height="450" Width="820"
+        Title="ThoughtKeeper" Height="450" Width="840"
         ResizeMode="NoResize">
 
 
@@ -34,27 +34,28 @@
         </Grid.RowDefinitions>
 
 
-        <Label HorizontalAlignment="Center" VerticalAlignment="Center" Height="26" Grid.Row="1" Width="110" Grid.Column="1">
+        <Label HorizontalAlignment="Left" VerticalAlignment="Center" Height="26" Width="110" Grid.Column="5">
             <TextBlock>
-        <Run Text="Witaj "/>
+        <Run Text="Użytkownik: "/>
         <Run Text="{Binding User.Username}"/>
-                <Run Text="!"/>
             </TextBlock>
         </Label>
 
-        <ListView Name="NoteList" Grid.RowSpan="9" Grid.Column="3" Grid.ColumnSpan="3" Margin="0,48,1,48" SelectionChanged="NoteList_SelectionChanged">
+        <ListView Name="NoteList" Grid.RowSpan="9" Grid.Column="3" Grid.ColumnSpan="3" Margin="0,45,0,80" SelectionChanged="NoteList_SelectionChanged">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Tytuł" DisplayMemberBinding="{Binding Title}" Width="150" />
-                    <GridViewColumn Header="Treść" DisplayMemberBinding="{Binding Content}" Width="250"/>
-                    <GridViewColumn Header="Data utworzenia" DisplayMemberBinding="{Binding DateCreated}" Width="150"/>
+                    <GridViewColumn Header="Tytuł" DisplayMemberBinding="{Binding Title}" Width="110" />
+                    <GridViewColumn Header="Treść" DisplayMemberBinding="{Binding Content}" Width="210"/>
+                    <GridViewColumn Header="Kategoria" DisplayMemberBinding="{Binding Content}" Width="100"/>
+                    <GridViewColumn Header="Data Utworzenia" DisplayMemberBinding="{Binding DateCreated}" Width="140"/>
                 </GridView>
             </ListView.View>
         </ListView>
-        <Button Content="Dodaj Notatkę" Grid.Row="2" Margin="0,10,0,10" Click="AddNoteButton_Click" Grid.Column="1"/>
-        <Button Content="Edytuj Notatkę" Grid.Row="3" Margin="0,10,0,10" Click="EditNoteButton_Click" Grid.Column="1"/>
-        <Button Content="Usuń notatkę" Grid.Row="4" Margin="0,10,0,10" Click="RemoveNoteButton_Click" Grid.Column="1"/>
-        <Button Content="Szczegóły notatki" Grid.Row="7" Margin="0,10,0,10" Click="ShowDetailsButton_Click" Grid.Column="1"/>
-
+        <Button Content="Dodaj Notatkę" Grid.Row="1" Margin="0,10,0,10" Click="AddNoteButton_Click" Grid.Column="1"/>
+        <Button Content="Edytuj Notatkę" Grid.Row="2" Margin="0,10,0,10" Click="EditNoteButton_Click" Grid.Column="1"/>
+        <Button Content="Usuń notatkę" Grid.Row="3" Margin="0,10,0,10" Click="RemoveNoteButton_Click" Grid.Column="1"/>
+        <Button Content="Szczegóły notatki" Grid.Row="4" Margin="0,10,0,10" Click="ShowDetailsButton_Click" Grid.Column="1"/>
+        
+        <Button Content="Wyloguj się" Grid.Row="7" Grid.RowSpan="2" Grid.Column="5" Margin="40,40,0,25"  Click="Logout_Click"/>
     </Grid>
 </Window>

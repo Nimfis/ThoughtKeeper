@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using Microsoft.Extensions.DependencyInjection;
+using ThoughtKeeper.Interfaces;
 using ThoughtKeeper.Service;
 
 namespace ThoughtKeeper
@@ -24,7 +25,8 @@ namespace ThoughtKeeper
         {
             return new LoginWindow(
                 serviceProvider.GetRequiredService<IUserService>(),
-                serviceProvider.GetRequiredService<INoteService>());
+                serviceProvider.GetRequiredService<INoteService>(),
+                serviceProvider.GetRequiredService<ICategoryService>());
         }
     }
 }

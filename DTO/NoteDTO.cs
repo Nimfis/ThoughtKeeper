@@ -14,6 +14,8 @@ namespace ThoughtKeeper.DTO
         public string Content { get; set; }
         public DateTime DateCreated { get; set; }
         public int UserId { get; set; }
+
+        public int? CategoryId { get; set; }
     }
 }
 

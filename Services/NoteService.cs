@@ -58,5 +58,15 @@ namespace ThoughtKeeper.Service
                 connection.Execute(sql, new { NoteId = noteId });
             }
         }
+
+        public void AssignNoteToCategory(int noteId, int categoryId)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                var sql = "UPDATE Notes SET CategoryId = @CategoryId WHERE Id = @NoteId AND UserId = @UserId;";
+                connection.Execute(sql, new { NoteId = noteId, CategoryId = categoryId });
+            }
+        }
+
     }
 }

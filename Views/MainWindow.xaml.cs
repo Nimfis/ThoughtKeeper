@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using ThoughtKeeper.DTO;
+using ThoughtKeeper.Interfaces;
 using ThoughtKeeper.Service;
 
 namespace ThoughtKeeper
@@ -13,9 +15,10 @@ namespace ThoughtKeeper
 
         private readonly IUserService _userService;
         private readonly INoteService _noteService;
+        private readonly ICategoryService _categoryService;
         private readonly int _userId;
 
-        public MainWindow(int userId, UserDTO user, INoteService noteService, IUserService userService)
+        public MainWindow(int userId, UserDTO user, INoteService noteService, IUserService userService, ICategoryService categoryService)
         {
             InitializeComponent();
             User = user;
@@ -23,6 +26,7 @@ namespace ThoughtKeeper
             _userId = userId;
             _userService = userService;
             _noteService = noteService;
+            _categoryService = categoryService;
 
             Username = user.Username;
 
@@ -52,7 +56,7 @@ namespace ThoughtKeeper
         private void AddNoteButton_Click(object sender, RoutedEventArgs e)
         {
             var newNote = new NoteDTO { UserId = _userId };
-            var newNoteWindow = new AddEditNoteWindow(newNote, _noteService, _userId);
+            var newNoteWindow = new AddEditNoteWindow(newNote, _noteService, _categoryService, _userId);
 
             var result = newNoteWindow.ShowDialog();
 
@@ -66,7 +70,7 @@ namespace ThoughtKeeper
         {
             if (NoteList.SelectedItem is NoteDTO selectedNote)
             {
-                var editNoteWindow = new AddEditNoteWindow(selectedNote, _noteService, _userId);
+                var editNoteWindow = new AddEditNoteWindow(selectedNote, _noteService, _categoryService, _userId);
                 var result = editNoteWindow.ShowDialog();
 
                 if (result == true)
@@ -108,15 +112,17 @@ namespace ThoughtKeeper
             }
         }
 
-        private void NoteList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void Logout_Click(object sender, RoutedEventArgs e)
         {
-
-            if (NoteList.SelectedItem is NoteDTO selectedNote)
-            {
-
-                MessageBox.Show($"Tytuł: {selectedNote.Title}\nTreść: {selectedNote.Content}\nData Utworzenia: {selectedNote.DateCreated}");
-            }
+            LoginWindow loginWindow = new LoginWindow(_userService, _noteService, _categoryService);
+            loginWindow.Show();
+            this.Close();
         }
 
+
+        private void NoteList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            //Check note
+        }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Input;
+using ThoughtKeeper.Interfaces;
 
 namespace ThoughtKeeper
 {
@@ -9,12 +10,14 @@ namespace ThoughtKeeper
     {
         private readonly IUserService _userService;
         private readonly INoteService _noteService;
+        private readonly ICategoryService _categoryService;
 
-        public LoginWindow(IUserService userService, INoteService noteService)
+        public LoginWindow(IUserService userService, INoteService noteService, ICategoryService categoryService)
         {
             InitializeComponent();
             _userService = userService ?? throw new ArgumentNullException(nameof(userService));
             _noteService = noteService ?? throw new ArgumentNullException(nameof(noteService));
+            _categoryService = categoryService ?? throw new ArgumentNullException(nameof(categoryService));
         }
     
 
@@ -33,7 +36,7 @@ namespace ThoughtKeeper
 
                     if (userDTO != null)
                     {
-                        MainWindow mainWindow = new MainWindow(userDTO.UserId, userDTO, _noteService, _userService);
+                        MainWindow mainWindow = new MainWindow(userDTO.UserId, userDTO, _noteService, _userService, _categoryService);
                         mainWindow.Closed += (s, args) => this.Close();
                         mainWindow.Show();
                         this.Hide();
@@ -65,9 +68,5 @@ namespace ThoughtKeeper
             registrationWindow.Show();
         }
 
-        private void Cancel_Click(object sender, RoutedEventArgs e)
-        {
-            this.Close();
-        }
     }
 }

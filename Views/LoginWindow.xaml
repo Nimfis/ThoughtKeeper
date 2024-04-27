@@ -32,9 +32,8 @@
         
         <Label Content="Hasło:" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="1" VerticalAlignment="Top"/>
         <PasswordBox x:Name="txtPassword" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="4" Margin="0,30,0,0" />
-
-        <Button Content="Close" Grid.Row="3" Grid.Column="3"  Margin="5,20,5,10" Click="Cancel_Click"/>
-        <Button Content="Login" Grid.Row="3" Grid.Column="4"  Margin="5,20,5,10" Click="Login_Click"/>
+        
+        <Button Content="Zaloguj się" Grid.Row="3" Grid.Column="4"  Margin="5,20,5,10" Click="Login_Click"/>
 
         <TextBlock Grid.Row="4" Grid.Column="3" Grid.ColumnSpan="2" Text="Nie masz konta? Zarejestruj się" VerticalAlignment="Top" Foreground="Blue" Cursor="Hand" MouseUp="NewUser_MouseUp"/>
     </Grid>

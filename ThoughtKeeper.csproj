@@ -128,10 +128,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="DTO\CategoryDTO.cs" />
     <Compile Include="Interfaces\IAuthenticationService.cs" />
+    <Compile Include="Interfaces\ICategoryService.cs" />
     <Compile Include="Interfaces\INoteCryptoService.cs" />
     <Compile Include="Interfaces\INoteService.cs" />
     <Compile Include="Interfaces\IUserService.cs" />
+    <Compile Include="Services\CategoryService.cs" />
     <Compile Include="Services\NoteCryptoService.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Views\RegistrationWindow.xaml.cs">

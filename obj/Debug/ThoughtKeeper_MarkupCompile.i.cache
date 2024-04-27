@@ -4,16 +4,16 @@
 winexe
 C#
 .cs
-C:\Users\Ania-PC\OneDrive\Dokumenty\STUDIA\ThoughtKeeper\obj\Debug\
+C:\Repo\ThoughtKeeper\obj\Debug\
 ThoughtKeeper
 none
 false
 DEBUG;TRACE
-C:\Users\Ania-PC\OneDrive\Dokumenty\STUDIA\ThoughtKeeper\App.xaml
+C:\Repo\ThoughtKeeper\App.xaml
 5322126801
 
-21310716905
-411014520701
+24679487804
+41640520700
 Views\AddEditNoteWindow.xaml;Views\LoginWindow.xaml;Views\MainWindow.xaml;Views\NoteDetailWindow.xaml;Views\RegistrationWindow.xaml;
 
 False
