@@ -1,18 +1,22 @@
 ﻿using System;
 using System.Windows;
-using Microsoft.Extensions.DependencyInjection;
+using System.Configuration;
+using ThoughtKeeper.Database;
 using ThoughtKeeper.Interfaces;
-using ThoughtKeeper.Service;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace ThoughtKeeper
 {
     public partial class App : Application
     {
+        private readonly string CONNECTION_STRING = ConfigurationManager.ConnectionStrings["ThoughtKeeperDB"].ConnectionString;
+
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
+            DatabaseSetup();
 
-            var startup = new Startup("Data Source=AR-ACER-NITRO\\SQLEXPRESS;Initial Catalog=Thought_Keeper;Integrated Security=True;Connect Timeout=30;Encrypt=False;");
+            var startup = new Startup(CONNECTION_STRING);
             var serviceCollection = new ServiceCollection();
             startup.ConfigureServices(serviceCollection);
             var serviceProvider = serviceCollection.BuildServiceProvider();
@@ -27,6 +31,14 @@ namespace ThoughtKeeper
                 serviceProvider.GetRequiredService<IUserService>(),
                 serviceProvider.GetRequiredService<INoteService>(),
                 serviceProvider.GetRequiredService<ICategoryService>());
+        }
+
+        private void DatabaseSetup()
+        {
+            var databaseContext = new DatabaseContext(CONNECTION_STRING);
+            databaseContext.EnsureDatabaseCreated();
+            databaseContext.EnsureSchemaCreated();
+            databaseContext.SeedData();
         }
     }
 }

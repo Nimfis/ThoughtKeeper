@@ -18,8 +18,6 @@ namespace ThoughtKeeper
 
         public void ConfigureServices(IServiceCollection services)
         {
-            
-
             services.AddScoped<IUserService>(provider => new UserService(_connectionString));
 
             byte[] key;
@@ -36,7 +34,7 @@ namespace ThoughtKeeper
             }
 
             services.AddScoped<INoteCryptoService>(provider => new NoteCryptoService(key, iv));
-            services.AddScoped<INoteService, NoteService>(_ => new NoteService(_connectionString, _.GetService<INoteCryptoService>(), _.GetService<IUserService>())); 
+            services.AddScoped<INoteService, NoteService>(_ => new NoteService(_connectionString, _.GetService<INoteCryptoService>(), _.GetService<IUserService>()));
             services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddScoped<ICategoryService>(provider => new CategoryService(_connectionString));
         }
