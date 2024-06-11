@@ -5,31 +5,32 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ThoughtKeeper"
         mc:Ignorable="d"
-             Title="Add/Edit Note" Height="400" Width="400">
+        Title="Add/Edit Note" Height="400" Width="400">
 
     <Grid Margin="10">
         <Grid.RowDefinitions>
-            <RowDefinition Height="25"/>
-            <RowDefinition Height="20"/>
-            <RowDefinition Height="30"/>
-            <RowDefinition Height="25"/>
-            <RowDefinition Height="25"/>
- 
-            <RowDefinition Height="200"/>
-            <RowDefinition Height="40"/>
-
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <Label Content="Tytuł Notatki:" Grid.Row="0"/>
-        <TextBox x:Name="titleTextBox" Grid.Row="1" />
+        <TextBox x:Name="titleTextBox" Grid.Row="1" Margin="0,0,0,10" />
 
         <Label Content="Kategoria:" Grid.Row="2"/>
-        <TextBox x:Name="contentTextBox" Grid.Row="5" Margin="0,0,0,20" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" TextWrapping="Wrap"/>
-        <ComboBox x:Name="categoryComboBox" Grid.Row="3"/>
+        <ComboBox x:Name="categoryComboBox" Grid.Row="3" SelectionChanged="categoryComboBox_SelectionChanged" 
+                  DisplayMemberPath="Name" SelectedValuePath="Id" Margin="0,0,0,10" />
+
         <Label Content="Treść:" Grid.Row="4"/>
-        <StackPanel Grid.Row="7" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,5" RenderTransformOrigin="0.497,0.462" >
-            <Button x:Name="saveButton" Content="Save" Click="SaveButton_Click" Margin=" 10, 0, 10, 0"  Width="60" Height="20"/>
-            <Button x:Name="cancelButton" Content="Cancel" Click="CancelButton_Click" Margin="10, 0, 10, 0"  Width="60" Height="20"/>
+        <TextBox x:Name="contentTextBox" Grid.Row="5" Margin="0,0,0,10" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" TextWrapping="Wrap"/>
+
+        <StackPanel Grid.Row="6" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
+            <Button x:Name="saveButton" Content="Save" Click="SaveButton_Click" Margin="10,0,10,0" Width="60" Height="20"/>
+            <Button x:Name="cancelButton" Content="Cancel" Click="CancelButton_Click" Margin="10,0,10,0" Width="60" Height="20"/>
         </StackPanel>
     </Grid>
 

@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Input;
 using ThoughtKeeper.Interfaces;
+using ThoughtKeeper.Security;
 
 namespace ThoughtKeeper
 {
@@ -11,13 +12,15 @@ namespace ThoughtKeeper
         private readonly IUserService _userService;
         private readonly INoteService _noteService;
         private readonly ICategoryService _categoryService;
+        private readonly IPasswordManager _passwordManager;
 
-        public LoginWindow(IUserService userService, INoteService noteService, ICategoryService categoryService)
+        public LoginWindow(IUserService userService, INoteService noteService, ICategoryService categoryService, IPasswordManager passwordManager)
         {
             InitializeComponent();
-            _userService = userService ?? throw new ArgumentNullException(nameof(userService));
-            _noteService = noteService ?? throw new ArgumentNullException(nameof(noteService));
-            _categoryService = categoryService ?? throw new ArgumentNullException(nameof(categoryService));
+            _userService = userService;
+            _noteService = noteService;
+            _categoryService = categoryService;
+            _passwordManager = passwordManager;
         }
     
 
@@ -28,7 +31,7 @@ namespace ThoughtKeeper
 
             try
             {
-                bool isAuthenticated = _userService.VerifyPassword(username, password);
+                bool isAuthenticated = _passwordManager.VerifyPassword(username, password);
 
                 if (isAuthenticated)
                 {
@@ -36,35 +39,30 @@ namespace ThoughtKeeper
 
                     if (userDTO != null)
                     {
-                        MainWindow mainWindow = new MainWindow(userDTO.UserId, userDTO, _noteService, _userService, _categoryService);
+                        MainWindow mainWindow = new MainWindow(userDTO, _noteService, _userService, _categoryService, _passwordManager);
                         mainWindow.Closed += (s, args) => this.Close();
                         mainWindow.Show();
                         this.Hide();
                     }
                     else
                     {
-                        MessageBox.Show("User not found.", "Error");
+                        MessageBox.Show($"Użytkownik o podanej nazwie '{username}' nie został odnaleziony", "Użytkownik nie istnieje", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
                 else
                 {
-                    MessageBox.Show("Nieprawidłowy login lub hasło.", "Error");
+                    MessageBox.Show("Wprowadzono nieprawidłowy login lub hasło. Spróbuj ponownie", "Błędne dane logowania", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
             catch (Exception ex)
             {
-                // Obsługa wyjątków
-                MessageBox.Show($"An error occurred: {ex.Message}", "Error");
-
-                // Logowanie błędu w aplikacji
-                Console.WriteLine($"Login error: {ex}");
-                MessageBox.Show($"An error occurred: {ex.Message}", "Error");
+                MessageBox.Show("Wystąpił nieoczekiwany błąd", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
         private void NewUser_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            RegistrationWindow registrationWindow = new RegistrationWindow(_userService);
+            RegistrationWindow registrationWindow = new RegistrationWindow(_userService, _passwordManager);
             registrationWindow.Show();
         }
 

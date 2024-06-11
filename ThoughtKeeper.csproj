@@ -129,20 +129,21 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AppConfig.cs" />
     <Compile Include="Database\DatabaseContext.cs" />
     <Compile Include="DTO\CategoryDTO.cs" />
-    <Compile Include="Interfaces\IAuthenticationService.cs" />
     <Compile Include="Interfaces\ICategoryService.cs" />
     <Compile Include="Interfaces\INoteCryptoService.cs" />
     <Compile Include="Interfaces\INoteService.cs" />
     <Compile Include="Interfaces\IUserService.cs" />
+    <Compile Include="Security\IPasswordManager.cs" />
+    <Compile Include="Security\PasswordManager.cs" />
     <Compile Include="Services\CategoryService.cs" />
     <Compile Include="Services\NoteCryptoService.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Views\RegistrationWindow.xaml.cs">
       <DependentUpon>RegistrationWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Services\AuthenticationService.cs" />
     <Compile Include="DTO\NoteDTO.cs" />
     <Compile Include="Services\NoteService.cs" />
     <Compile Include="Services\UserService.cs" />

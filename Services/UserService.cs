@@ -2,20 +2,22 @@
 using System;
 using System.Data.SqlClient;
 using ThoughtKeeper;
+using ThoughtKeeper.Database;
+using ThoughtKeeper.Security;
 
 public class UserService : IUserService
 {
-    private readonly string _connectionString;
+    private readonly IPasswordManager _passwordManager;
 
-    public UserService(string connectionString)
+    public UserService(IPasswordManager passwordManager)
     {
-        _connectionString = connectionString ?? throw new ArgumentNullException(nameof(connectionString));
+        _passwordManager = passwordManager;
     }
 
 
     public bool DoesUsernameExist(string username)
     {
-        using (var connection = new SqlConnection(_connectionString))
+        using (var connection = DatabaseContext.GetDbConnection())
         {
             const string query = "SELECT COUNT(1) FROM Users WHERE Username = @Username";
             return connection.ExecuteScalar<bool>(query, new { Username = username });
@@ -29,44 +31,26 @@ public class UserService : IUserService
             throw new ArgumentException("Password cannot be empty.");
         }
 
-        var hashedPassword = BCrypt.Net.BCrypt.HashPassword(password);
+        var hashedPassword = _passwordManager.HashPassword(password);
 
-        using (var connection = new SqlConnection(_connectionString))
+        using (var connection = DatabaseContext.GetDbConnection())
         {
             const string insertQuery = "INSERT INTO Users (Username, PasswordHash) VALUES (@Username, @PasswordHash)";
-            int rowsAffected = connection.Execute(insertQuery, new { Username = username, PasswordHash = hashedPassword });
+            connection.Execute(insertQuery, new { Username = username, PasswordHash = hashedPassword });
         }
     }
     public UserDTO GetUserById(int userId)
     {
-        using (var connection = new SqlConnection(_connectionString))
+        using (var connection = DatabaseContext.GetDbConnection())
         {
             const string query = "SELECT UserId, Username, PasswordHash FROM Users WHERE UserId = @UserId";
             return connection.QuerySingleOrDefault<UserDTO>(query, new { UserId = userId });
         }
     }
 
-
-    public string GetPasswordHash(string username)
-    {
-        using (var connection = new SqlConnection(_connectionString))
-        {
-            const string query = "SELECT PasswordHash FROM Users WHERE Username = @Username";
-            var param = new { Username = username };
-            var passwordHash = connection.QuerySingleOrDefault<string>(query, param);
-            return passwordHash; 
-        }
-    }
-
-    public bool VerifyPassword(string username, string password)
-    {
-        var passwordHash = GetPasswordHash(username);
-        return passwordHash != null && BCrypt.Net.BCrypt.Verify(password, passwordHash);
-    }
-
     public UserDTO GetUserByUsername(string username)
     {
-        using (var connection = new SqlConnection(_connectionString))
+        using (var connection = DatabaseContext.GetDbConnection())
         {
             connection.Open();
             var command = new SqlCommand("SELECT * FROM Users WHERE Username = @username", connection);

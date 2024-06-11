@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.IO;
 using System.Security.Cryptography;
 
@@ -6,14 +7,8 @@ namespace ThoughtKeeper.Service
 {
     public class NoteCryptoService : INoteCryptoService
     {
-        private readonly byte[] _key;
-        private readonly byte[] _iv;
-
-        public NoteCryptoService(byte[] key, byte[] iv)
-        {
-            _key = key ?? throw new ArgumentNullException(nameof(key));
-            _iv = iv ?? throw new ArgumentNullException(nameof(iv));
-        }
+        private readonly byte[] _key = Convert.FromBase64String(ConfigurationManager.AppSettings["notesCryptoAES_Key"]);
+        private readonly byte[] _iv = Convert.FromBase64String(ConfigurationManager.AppSettings["notesCryptoAES_IV"]);
 
         public string EncryptString(string text)
         {
@@ -55,15 +50,6 @@ namespace ThoughtKeeper.Service
                     return sr.ReadToEnd();
                 }
             }
-        }
-        public byte[] GetKey()
-        {
-            return _key;
-        }
-
-        public byte[] GetIV()
-        {
-            return _iv;
         }
     }
 }

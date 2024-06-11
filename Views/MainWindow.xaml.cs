@@ -1,34 +1,33 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using ThoughtKeeper.DTO;
 using ThoughtKeeper.Interfaces;
-using ThoughtKeeper.Service;
+using ThoughtKeeper.Security;
 
 namespace ThoughtKeeper
 {
     public partial class MainWindow : Window
     {
-        public string Username { get; }
-        public UserDTO User { get; }
+        private UserDTO User { get; }
 
         private readonly IUserService _userService;
         private readonly INoteService _noteService;
         private readonly ICategoryService _categoryService;
-        private readonly int _userId;
+        private readonly IPasswordManager _passwordManager;
 
-        public MainWindow(int userId, UserDTO user, INoteService noteService, IUserService userService, ICategoryService categoryService)
+        public MainWindow(UserDTO user, INoteService noteService, IUserService userService, ICategoryService categoryService, IPasswordManager passwordManager)
         {
-            InitializeComponent();
             User = user;
+
+            InitializeComponent();
             DataContext = this;
-            _userId = userId;
             _userService = userService;
             _noteService = noteService;
             _categoryService = categoryService;
+            _passwordManager = passwordManager;
 
-            Username = user.Username;
+            userTextBlock.DataContext = User;
 
             try
             {
@@ -44,7 +43,7 @@ namespace ThoughtKeeper
         {
             try
             {
-                var notes = _noteService.GetAllNotes(_userId);
+                var notes = _noteService.GetAllNotes(User.UserId);
                 NoteList.ItemsSource = notes;
             }
             catch (Exception ex)
@@ -55,8 +54,8 @@ namespace ThoughtKeeper
 
         private void AddNoteButton_Click(object sender, RoutedEventArgs e)
         {
-            var newNote = new NoteDTO { UserId = _userId };
-            var newNoteWindow = new AddEditNoteWindow(newNote, _noteService, _categoryService, _userId);
+            var newNote = new NoteDTO { UserId = User.UserId };
+            var newNoteWindow = new AddEditNoteWindow(newNote, _noteService, _categoryService, User.UserId);
 
             var result = newNoteWindow.ShowDialog();
 
@@ -70,7 +69,7 @@ namespace ThoughtKeeper
         {
             if (NoteList.SelectedItem is NoteDTO selectedNote)
             {
-                var editNoteWindow = new AddEditNoteWindow(selectedNote, _noteService, _categoryService, _userId);
+                var editNoteWindow = new AddEditNoteWindow(selectedNote, _noteService, _categoryService, User.UserId);
                 var result = editNoteWindow.ShowDialog();
 
                 if (result == true)
@@ -87,7 +86,7 @@ namespace ThoughtKeeper
         private void RemoveNoteButton_Click(object sender, RoutedEventArgs e)
         {
             var selectedNote = NoteList.SelectedItem as NoteDTO;
-            if (selectedNote != null && selectedNote.UserId == _userId)
+            if (selectedNote != null && selectedNote.UserId == User.UserId)
             {
                 _noteService.DeleteNote(selectedNote.Id);
                 LoadNotes();
@@ -114,7 +113,7 @@ namespace ThoughtKeeper
 
         private void Logout_Click(object sender, RoutedEventArgs e)
         {
-            LoginWindow loginWindow = new LoginWindow(_userService, _noteService, _categoryService);
+            LoginWindow loginWindow = new LoginWindow(_userService, _noteService, _categoryService, _passwordManager);
             loginWindow.Show();
             this.Close();
         }

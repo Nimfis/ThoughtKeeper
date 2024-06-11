@@ -6,22 +6,20 @@ namespace ThoughtKeeper.Database
 {
     internal class DatabaseContext
     {
-        private readonly string _connectionString;
-
-        public DatabaseContext(string connectionString)
+        public static SqlConnection GetDbConnection()
         {
-            _connectionString = connectionString;
+            return new SqlConnection(AppConfig.DbConnectionString);
         }
 
         public void EnsureDatabaseCreated()
         {
-            var builder = new SqlConnectionStringBuilder(_connectionString)
+            var builder = new SqlConnectionStringBuilder(AppConfig.DbConnectionString)
             {
                 InitialCatalog = string.Empty
             };
 
             string serverConnectionString = builder.ToString();
-            string databaseName = new SqlConnectionStringBuilder(_connectionString).InitialCatalog;
+            string databaseName = new SqlConnectionStringBuilder(AppConfig.DbConnectionString).InitialCatalog;
 
             using (var connection = new SqlConnection(serverConnectionString))
             {
@@ -37,7 +35,7 @@ namespace ThoughtKeeper.Database
 
         public void EnsureSchemaCreated()
         {
-            using (var connection = new SqlConnection(_connectionString))
+            using (var connection = GetDbConnection())
             {
                 connection.Open();
 
@@ -77,7 +75,7 @@ namespace ThoughtKeeper.Database
 
         public void SeedData()
         {
-            using (var connection = new SqlConnection(_connectionString))
+            using (var connection = GetDbConnection())
             {
                 connection.Open();
 

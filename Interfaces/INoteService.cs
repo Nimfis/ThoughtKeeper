@@ -7,4 +7,5 @@ public interface INoteService
     void AddNote(NoteDTO note);
     void EditNote(NoteDTO note, int _userId);
     void DeleteNote(int noteId);
+    void AssignNoteToCategory(int id, int? categoryId, int userId);
 }
